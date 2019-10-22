@@ -1,0 +1,32 @@
+use std::io; // use module
+use std::cmp::Ordering;
+use rand::Rng;
+
+fn main() {
+    let secret = rand::thread_rng().gen_range(1, 101);
+    loop{
+    println!("Guess the number-o!");
+
+    println!("Pwease input the guessyo!");
+
+    let mut guess = String::new(); // user input -> cast to string
+
+    io::stdin().read_line(&mut guess)
+                        .expect("Failed to read line");
+// from module io use func stdin and read a line, which is a mutable reference to the guess variable and expect an error message.
+    println!("You guessed: {}", guess);
+
+    let guess: u32 = match guess.trim().parse(){
+        Ok(num) => num,
+        Err(_) => continue,
+    }; // Error handling: if parse can return a num -> Ok -> returns an int. Otherwise pass (if not num, "_" is a wildcard
+    match guess.cmp(&secret) {
+        Ordering::Less => println!("Too small!"),
+        Ordering::Greater => println!("Too big!"),
+        Ordering::Equal => {
+            println!("You win!");
+            break;
+             }
+         }
+    }
+}
